@@ -42,7 +42,7 @@ else
     mount "${DISK}1" /mnt/void
 fi
 
-cd /mnt/void || echo "Failed to cd... you got a fucked up system." && exit
+cd /mnt/void || exit
 
 URL="https://repo-default.voidlinux.org/live/current/"
 FILENAME=$(curl -s ${URL} | grep -m 1 "void-x86_64-ROOTFS-" | sed -r 's#^.*<a href="([^"]+)">([^<]+)</a>.*$#\1\t\2#' | sed -n -e 's/\(^.*\)\(\(void\).*\)/\1/p')
