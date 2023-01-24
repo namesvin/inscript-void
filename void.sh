@@ -19,9 +19,6 @@ mount "${DISK}2" /mnt/void
 mkdir -p /mnt/void/boot
 mount "${DISK}1" /mnt/void/boot
 
-curl https://raw.githubusercontent.com/glacion/genfstab/master/genfstab >> ~/genfstab
-bash ~/genfstab -U /mnt/void  >> /mnt/void/etc/fstab
-
 cd /mnt/void
 
 URL="https://repo-default.voidlinux.org/live/current/"
@@ -32,6 +29,9 @@ curl -fLO ${URL}${FILENAME} && tar xvf ${FILENAME} && rm ${FILENAME}
 mount --rbind /sys /mnt/void/sys && mount --make-rslave /mnt/void/sys
 mount --rbind /dev /mnt/void/dev && mount --make-rslave /mnt/void/dev
 mount --rbind /proc /mnt/void/proc && mount --make-rslave /mnt/void/proc
+
+curl https://raw.githubusercontent.com/glacion/genfstab/master/genfstab >> ~/genfstab
+bash ~/genfstab -U /mnt/void  >> /mnt/void/etc/fstab
 
 cp /etc/resolv.conf /mnt/void/etc/
 
