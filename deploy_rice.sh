@@ -1,4 +1,5 @@
 #!/bin/bash
+# Should be ran as normal user!!!!!!!
 cd ~
 sudo xbps-install -Syu git
 git clone https://github.com/namesvin/void-dots
