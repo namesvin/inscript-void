@@ -13,41 +13,41 @@ format_bios() {
     size=$(parted -s "$DISK" unit MB print | head -n 2 | tail -n 1 | awk '{ print $3 }')
 
     parted -s "$DISK" mklabel msdos
-    parted -s $DISK mkpart primary xfs 0 $size
+    parted -s "$DISK" mkpart primary xfs 0 "$size"
     parted -s "$DISK" set 1 boot on
 }
 
 format_uefi() {
-    size=$(parted -s $DISK unit MB print | head -n 2 | tail -n 1 | awk '{ print $3 }')
+    size=$(parted -s "$DISK" unit MB print | head -n 2 | tail -n 1 | awk '{ print $3 }')
 
-    parted -s $DISK mklabel gpt
-    parted -s $DISK mkpart primary fat32 0 500
-    parted -s $DISK set 1 esp on
-    parted -s "$DISK" mkpart primary xfs 500 $size
+    parted -s "$DISK" mklabel gpt
+    parted -s "$DISK" mkpart primary fat32 0 500
+    parted -s "$DISK" set 1 esp on
+    parted -s "$DISK" mkpart primary xfs 500 "$size"
 }
 
 dmesg | grep -q "EFI v"
 if [ $? -eq 0 ]; then
     format_uefi
-    mkfs.fat -F 32 ${DISK}1
-    mkfs.xfs -f ${DISK}2
+    mkfs.fat -F 32 "${DISK}"1
+    mkfs.xfs -f "${DISK}"2
     mkdir -p /mnt/void/
     mount "${DISK}2" /mnt/void
     mkdir -p /mnt/void/boot
     mount "${DISK}1" /mnt/void/boot
 else
     format_bios
-    mkfs.xfs -f ${DISK}2
+    mkfs.xfs -f "${DISK}"2
     mkdir -p /mnt/void/
     mount "${DISK}1" /mnt/void
 fi
 
-cd /mnt/void
+cd /mnt/void || echo "Failed to cd... you got a fucked up system." && exit
 
 URL="https://repo-default.voidlinux.org/live/current/"
 FILENAME=$(curl -s ${URL} | grep -m 1 "void-x86_64-ROOTFS-" | sed -r 's#^.*<a href="([^"]+)">([^<]+)</a>.*$#\1\t\2#' | sed -n -e 's/\(^.*\)\(\(void\).*\)/\1/p')
 
-curl -fLO ${URL}${FILENAME} && tar xvf ${FILENAME} && rm ${FILENAME}
+curl -fLO ${URL}"${FILENAME}" && tar xvf "${FILENAME}" && rm "${FILENAME}"
 
 mount --rbind /sys /mnt/void/sys && mount --make-rslave /mnt/void/sys
 mount --rbind /dev /mnt/void/dev && mount --make-rslave /mnt/void/dev
