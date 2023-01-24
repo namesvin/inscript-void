@@ -1,6 +1,11 @@
-DISK=$1
-PASSWORD=$4
 DIR=$(pwd)
+
+echo "Give disk you want to install on! (/dev/sdX)"
+read DISK
+echo "What should your hostname be?"
+read HOSTNAME
+echo "What should your password be?"
+read PASSWORD
 
 dd if=/dev/zero of=$DISK bs=1M count=4
 
@@ -32,7 +37,7 @@ chmod +x genfstab
 ./genftsab /mnt/void -U >> /mnt/void/etc/fstab
 echo "tmpfs           /tmp        tmpfs   defaults,nosuid,nodev   0 0" >> /mnt/void/etc/fstab
 
-echo "inscript" > /mnt/void/etc/hostname
+echo "${HOSTNAME}" > /mnt/void/etc/hostname
 
 echo "xbps-install -Suy xbps && xbps-install -uy && xbps-install -y base-system && xbps-remove -y base-voidstrap && xbps-install -y grub grub-x86_64-efi && grub-install --target=x86_64-efi --efi-directory=/boot && grub-mkconfig -o /boot/grub/grub.cfg && xbps-reconfigure -fa && passwd root" > /mnt/void/root/post.sh
 chmod u+x /mnt/void/root/post.sh
