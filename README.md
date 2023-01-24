@@ -1,2 +1,5 @@
-## inscript-void
-- Void Linux Install Script written in BASH
+# Inscript
+## A void Linux installer script
+
+- Written in 100% BASH
+- Easy to use
