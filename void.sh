@@ -27,7 +27,9 @@ mount --rbind /proc /mnt/void/proc && mount --make-rslave /mnt/void/proc
 
 cp /etc/resolv.conf /mnt/void/etc/
 
-echo "$(bash $DIR/fstab.sh -U /mnt/void)" > /mnt/void/etc/fstab
+curl -fLO https://raw.githubusercontent.com/glacion/genfstab/master/genfstab
+chmod +x genfstab
+./genftsab /mnt/void -U >> /mnt/void/etc/fstab
 echo "tmpfs           /tmp        tmpfs   defaults,nosuid,nodev   0 0" >> /mnt/void/etc/fstab
 
 echo "inscript" > /mnt/void/etc/hostname
