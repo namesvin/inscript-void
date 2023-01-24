@@ -19,6 +19,10 @@ mount "${DISK}2" /mnt/void
 mkdir -p /mnt/void/boot
 mount "${DISK}1" /mnt/void/boot
 
+curl -fLO https://raw.githubusercontent.com/glacion/genfstab/master/genfstab
+chmod +x genfstab
+./genftsab /mnt/void -U >> /mnt/void/etc/fstab
+
 cd /mnt/void
 
 URL="https://repo-default.voidlinux.org/live/current/"
@@ -32,9 +36,6 @@ mount --rbind /proc /mnt/void/proc && mount --make-rslave /mnt/void/proc
 
 cp /etc/resolv.conf /mnt/void/etc/
 
-curl -fLO https://raw.githubusercontent.com/glacion/genfstab/master/genfstab
-chmod +x genfstab
-./genftsab /mnt/void -U >> /mnt/void/etc/fstab
 echo "tmpfs           /tmp        tmpfs   defaults,nosuid,nodev   0 0" >> /mnt/void/etc/fstab
 
 echo "${HOSTNAME}" > /mnt/void/etc/hostname
