@@ -19,9 +19,8 @@ mount "${DISK}2" /mnt/void
 mkdir -p /mnt/void/boot
 mount "${DISK}1" /mnt/void/boot
 
-curl -fLO https://raw.githubusercontent.com/glacion/genfstab/master/genfstab
-chmod +x genfstab
-./genftsab /mnt/void -U >> /mnt/void/etc/fstab
+curl https://raw.githubusercontent.com/glacion/genfstab/master/genfstab >> ~/genfstab
+bash ~/genfstab -U /mnt/void  >> /mnt/void/etc/fstab
 
 cd /mnt/void
 
