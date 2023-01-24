@@ -54,7 +54,7 @@ mount --rbind /dev /mnt/void/dev && mount --make-rslave /mnt/void/dev
 mount --rbind /proc /mnt/void/proc && mount --make-rslave /mnt/void/proc
 
 curl https://raw.githubusercontent.com/glacion/genfstab/master/genfstab >> ~/genfstab
-bash ~/genfstab -U /mnt/void  >> /mnt/void/etc/fstab
+bash ~/genfstab -U -t /mnt/void  >> /mnt/void/etc/fstab
 
 cp /etc/resolv.conf /mnt/void/etc/
 
