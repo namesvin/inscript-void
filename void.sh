@@ -29,9 +29,8 @@ format_uefi() {
 }
 
 dmesg | grep -q "EFI v"
-if [ $? -eq 0 ]
-then
-    format_uefi()
+if [ $? -eq 0 ]; then
+    format_uefi
     mkfs.fat -F 32 ${DISK}1
     mkfs.xfs -f ${DISK}2
     mkdir -p /mnt/void/
@@ -39,7 +38,7 @@ then
     mkdir -p /mnt/void/boot
     mount "${DISK}1" /mnt/void/boot
 else
-    format_bios()
+    format_bios
     mkfs.xfs -f ${DISK}2
     mkdir -p /mnt/void/
     mount "${DISK}1" /mnt/void
