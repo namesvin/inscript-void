@@ -1,31 +1,29 @@
-echo "Give disk you want to install on! (/dev/sdX)"
-read DISK
-echo "What should your hostname be?"
-read HOSTNAME
-echo "What should your password be?"
-read PASSWORD
+#!/bin/bash
 
-dd if=/dev/zero of=$DISK bs=1M count=4
+echo "Give disk you want to install on! (/dev/sdX)"
+read -r DISK
+echo "What should your hostname be?"
+read -r HOSTNAME
+echo "What should your password be?"
+read -r PASSWORD
+
+dd if=/dev/zero of="$DISK" bs=1M count=4
 
 format_bios() {
-    drive=$1
-    fs=$2
-    size=$(parted -s /dev/sda unit MB print | head -n 2 | tail -n 1 | awk '{ print $3 }')
+    size=$(parted -s "$DISK" unit MB print | head -n 2 | tail -n 1 | awk '{ print $3 }')
 
-    parted -s $drive mklabel msdos
-    parted -s $drive mkpart primary xfs 0 $size
-    parted -s $drive set 1 boot on
+    parted -s "$DISK" mklabel msdos
+    parted -s $DISK mkpart primary xfs 0 $size
+    parted -s "$DISK" set 1 boot on
 }
 
 format_uefi() {
-    drive=$1
-    fs=$2
-    size=$(parted -s /dev/sda unit MB print | head -n 2 | tail -n 1 | awk '{ print $3 }')
+    size=$(parted -s $DISK unit MB print | head -n 2 | tail -n 1 | awk '{ print $3 }')
 
-    parted -s $drive mklabel gpt
-    parted -s $drive mkpart primary fat32 0 500
-    parted -s $drive set 1 esp on
-    parted -s $drive mkpart primary xfs 500 $size
+    parted -s $DISK mklabel gpt
+    parted -s $DISK mkpart primary fat32 0 500
+    parted -s $DISK set 1 esp on
+    parted -s "$DISK" mkpart primary xfs 500 $size
 }
 
 dmesg | grep -q "EFI v"
