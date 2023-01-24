@@ -1,4 +1,5 @@
 #!/bin/bash
+cd ~
 sudo xbps-install -Syu git
 git clone https://github.com/namesvin/void-dots
 cd void-dots
