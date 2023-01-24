@@ -37,7 +37,7 @@ if [ $? -eq 0 ]; then
     mount "${DISK}1" /mnt/void/boot
 else
     format_bios
-    mkfs.xfs -f "${DISK}"2
+    mkfs.xfs -f "${DISK}"1
     mkdir -p /mnt/void/
     mount "${DISK}1" /mnt/void
 fi
