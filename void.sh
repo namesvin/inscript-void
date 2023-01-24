@@ -12,9 +12,10 @@ dd if=/dev/zero of="$DISK" bs=1M count=4
 format_bios() {
     size=$(parted -s "$DISK" unit MB print | head -n 2 | tail -n 1 | awk '{ print $3 }')
 
-    parted -s "$DISK" mklabel msdos
-    parted -s "$DISK" mkpart primary xfs 2M "$size"
-    parted -s "$DISK" set 1 boot on
+    parted -s "$DISK" mklabel gpt
+    parted -s "$DISK" mkpart primary 0 1M
+    parted -s "$DISK" set 1 bios_grub on
+    parted -s "$DISK" mkpart primary xfs 1M "$size"
 }
 
 format_uefi() {
