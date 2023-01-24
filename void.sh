@@ -47,7 +47,7 @@ cd /mnt/void || exit
 URL="https://repo-default.voidlinux.org/live/current/"
 FILENAME=$(curl -s ${URL} | grep -m 1 "void-x86_64-ROOTFS-" | sed -r 's#^.*<a href="([^"]+)">([^<]+)</a>.*$#\1\t\2#' | sed -n -e 's/\(^.*\)\(\(void\).*\)/\1/p')
 
-curl -fLO ${URL}${FILENAME} && tar xvf "$FILENAME" && rm "$FILENAME"
+curl -fLO ${URL}${FILENAME} && tar xvf void* && rm void*
 
 mount --rbind /sys /mnt/void/sys && mount --make-rslave /mnt/void/sys
 mount --rbind /dev /mnt/void/dev && mount --make-rslave /mnt/void/dev
