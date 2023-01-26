@@ -73,5 +73,5 @@ fi
 
 chmod u+x /mnt/void/root/post.sh
 chroot /mnt/void bash -c /root/post.sh
-chroot /mnt/void bash -c ln -s /etc/sv/NetworkManager /etc/runit/runsvdir/default/
-chroot /mnt/void bash -c rm post.sh
+chroot /mnt/void bash -c "ln -s /etc/sv/NetworkManager /etc/runit/runsvdir/default/"
+chroot /mnt/void bash -c "rm /root/post.sh"
