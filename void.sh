@@ -43,8 +43,6 @@ else
     mount "${DISK}2" /mnt/void
 fi
 
-cp post.sh /mnt/void/post.sh
-
 cd /mnt/void || exit
 
 URL="https://repo-default.voidlinux.org/live/current/"
