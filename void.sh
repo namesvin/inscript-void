@@ -68,11 +68,12 @@ echo "${HOSTNAME}" > /mnt/void/etc/hostname
 dmesg | grep -q "EFI v"    # -q tell grep to output nothing
 if [ $? -eq 0 ]      # check exit code; if 0 EFI, else BIOS
 then
-    echo "xbps-install -Suy xbps && xbps-install -uy && xbps-install -y base-system && xbps-remove -y base-voidstrap && xbps-install -y grub grub-x86_64-efi && grub-install --target=x86_64-efi --efi-directory=/boot && grub-mkconfig -o /boot/grub/grub.cfg && xbps-reconfigure -fa && passwd root" > /mnt/void/root/post.sh
+    echo "xbps-install -Suy xbps && xbps-install -uy && xbps-install -y base-system && xbps-remove -y base-voidstrap && xbps-install -y grub grub-x86_64-efi && xbps-install -y NetworkManager && grub-install --target=x86_64-efi --efi-directory=/boot && grub-mkconfig -o /boot/grub/grub.cfg && xbps-reconfigure -fa && passwd root" > /mnt/void/root/post.sh
 else
-    echo "xbps-install -Suy xbps && xbps-install -uy && xbps-install -y base-system && xbps-remove -y base-voidstrap && xbps-install -y grub && grub-install ${DISK}1 && grub-mkconfig -o /boot/grub/grub.cfg && xbps-reconfigure -fa && passwd root" > /mnt/void/root/post.sh
+    echo "xbps-install -Suy xbps && xbps-install -uy && xbps-install -y base-system && xbps-remove -y base-voidstrap && xbps-install -y grub && xbps-install -y NetworkManager && grub-install ${DISK}1 && grub-mkconfig -o /boot/grub/grub.cfg && xbps-reconfigure -fa && passwd root" > /mnt/void/root/post.sh
 fi
 
 chmod u+x /mnt/void/root/post.sh
 chroot /mnt/void bash -c /root/post.sh
+chroot /mnt/void bash -c ln -s /etc/sv/NetworkManager /etc/runit/runsvdir/default/
 chroot /mnt/void bash -c rm post.sh
