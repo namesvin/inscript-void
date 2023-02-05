@@ -71,6 +71,23 @@ else
     echo "xbps-install -Suy xbps && xbps-install -uy && xbps-install -y base-system && xbps-remove -y base-voidstrap && xbps-install -y grub && xbps-install -y NetworkManager && grub-install ${DISK}1 && grub-mkconfig -o /boot/grub/grub.cfg && xbps-reconfigure -fa && passwd root" > /mnt/void/root/post.sh
 fi
 
+# If we start working on this again this can be used for password changing instead of manually changing it using passwd
+#while true; do
+#    printf "enter the password for your root user\n>"
+#    read -s password
+#    printf "re-enter the password for your root user\n>"
+#    read -s password_compare
+#    if [ "$password" = "$password_compare" ]; then
+#	echo "root:$password" | chpasswd
+#        break
+#    else
+#        printf "passwords do not match, re enter them\n"
+#        printf ".\n"
+#        sleep 3
+#        clear
+#    fi
+#done
+
 chmod u+x /mnt/void/root/post.sh
 chroot /mnt/void bash -c /root/post.sh
 chroot /mnt/void bash -c "ln -s /etc/sv/NetworkManager /etc/runit/runsvdir/default/"
